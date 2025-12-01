@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load first_sentence %}
+
+{% block title %}HealthHub — Wellness & Longevity{% endblock %}
+{% block content %}
+<div class="px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 auto-rows-fr">
+        {% for a in articles %}
+        <a href="{% url 'article_detail' a.slug %}" class="group block">
+            <article class="glass rounded-2xl overflow-hidden hover-lift transition-all duration-500 group-hover:shadow-2xl h-full flex flex-col">
+                {% if a.featured_image %}
+                <div class="overflow-hidden bg-gray-200">
+                    <img src="{{ a.featured_image.url }}" alt="{{ a.title|title }}" class="w-full h-64 object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                {% endif %}
+                <div class="p-6 sm:p-8 flex-grow flex flex-col">
+                    <span class="inline-block px-4 py-2 bg-emerald-600 dark:bg-emerald-500 text-white rounded-full text-xs font-semibold mb-4">
+                        {{ a.category.name }}
+                    </span>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 leading-tight flex-grow group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition line-clamp-3">
+                        {{ a.title|title }}
+                    </h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-base mb-6 line-clamp-3 flex-grow">
+                        {{ a.content|first_sentence }}
+                    </p>
+                </div>
+            </article>
+        </a>
+        {% empty %}
+        <div class="col-span-full text-center py-24">
+            <p class="text-3xl text-gray-500 dark:text-gray-400">No articles yet. Start generating!</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- ПАГИНАЦИЯ -->
+    {% include "pagination.html" %}
+</div>
+{% endblock %}

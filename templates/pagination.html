@@ -1,0 +1,37 @@
+{% if articles.has_other_pages %}
+<div class="flex justify-center items-center space-x-4 py-12">
+    <!-- Previous -->
+    {% if articles.has_previous %}
+        <a href="?page={{ articles.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+           class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-medium transition shadow-lg">
+            ← Previous
+        </a>
+    {% else %}
+        <span class="px-6 py-3 text-gray-400 cursor-not-allowed">← Previous</span>
+    {% endif %}
+
+    <!-- Номера страниц -->
+    <div class="flex space-x-2">
+        {% for num in articles.paginator.page_range %}
+            {% if articles.number == num %}
+                <span class="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold">{{ num }}</span>
+            {% elif num > articles.number|add:'-3' and num < articles.number|add:'3' %}
+                <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+                   class="w-12 h-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full flex items-center justify-center hover:bg-emerald-50 dark:hover:bg-emerald-900/50 transition">
+                    {{ num }}
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Next -->
+    {% if articles.has_next %}
+        <a href="?page={{ articles.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+           class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-medium transition shadow-lg">
+            Next →
+        </a>
+    {% else %}
+        <span class="px-6 py-3 text-gray-400 cursor-not-allowed">Next →</span>
+    {% endif %}
+</div>
+{% endif %}
