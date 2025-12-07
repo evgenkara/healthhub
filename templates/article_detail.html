@@ -69,7 +69,7 @@
     <img src="{{ article.featured_image.url }}" alt="{{ article.title|title }}" class="w-full rounded-2xl shadow-2xl mb-12 object-cover max-h-96">
     {% endif %}
 
-    <div class="prose prose-lg md:prose-xl max-w-none mx-auto text-gray-800 dark:text-gray-200 leading-relaxed">
+    <div class="article-content prose prose-lg md:prose-xl dark:prose-invert max-w-none mx-auto text-gray-800 dark:text-gray-200 leading-relaxed">
         {{ article.content|safe }}
     </div>
 

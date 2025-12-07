@@ -2,6 +2,11 @@
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv  # Добавляем импорт
+
+
+# Загружаем переменные из .env файла
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,6 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'blog',
 ]
 
@@ -51,10 +58,20 @@ WSGI_APPLICATION = 'healthsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
@@ -67,3 +84,12 @@ OLLAMA_MODEL = 'qwen2.5:14b-instruct-q6_k'
 
 # Unsplash ключ (потом заменишь на свой)
 UNSPLASH_ACCESS_KEY = 'JJtLTQw8Vbz0NOJWpSr4Frdnnrn4bqL2QABFfx3OYSU'  # ← сюда вставишь ключ с https://unsplash.com/developers
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}

@@ -5,7 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}HealthHub — Wellness & Longevity{% endblock %}</title>
-    
+    <script>
+    // Применение сохраненной темы до загрузки страницы
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+    }
+    </script>
+    {% if article %}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="{{ article.meta_title|default:article.title }}" />
+        <meta property="og:description" content="{{ article.meta_description }}" />
+        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+        {% if article.featured_image %}
+            <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ article.featured_image.url }}" />
+        {% endif %}
+        <meta name="twitter:card" content="summary_large_image">
+    {% else %}
+        <meta property="og:title" content="CureCurious - Wellness & Longevity" />
+        <meta property="og:image" content="ссылка_на_логотип.jpg" />
+    {% endif %}
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/static/favicon/favicon.ico">
     <link rel="apple-touch-icon" href="/static/favicon/apple-touch-icon.png">
@@ -42,46 +61,89 @@
     </script>
 
     <style>
-        :root {
-            --primary:#10b981;
-            --text:#374151;
-            --bg:#ffffff;
-            --card:#ffffff;
-            --border:#e5e7eb;
-            --input-bg:#ffffff;
-            --input-text:#1f2937;
-            --menu-text:#4b5563;
-            --title-text:#374151;
-        }
-        .dark {
-            --primary:#34d399;
-            --text:#f3f4f6;
-            --bg:#0f172a;
-            --card:#1e293b;
-            --border:#374151;
-            --input-bg:#1e293b;
-            --input-text:#f3f4f6;
-            --menu-text:#d1d5db;
-            --title-text:#f3f4f6;
-        }
-        body {font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:all 0.3s ease;}
-        .font-heading {font-family:'Playfair Display',serif;}
-        .glass {background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--border);}
-        .hover-lift {transition:all 0.3s ease;}
-        .hover-lift:hover {transform:translateY(-6px);box-shadow:0 20px 40px rgba(16,185,129,0.2);}
-        
-        /* ИСПРАВЛЯЕМ PROSE В ТЁМНОЙ ТЕМЕ — все заголовки и strong как обычный текст */
-        .prose :where(h2, h3, h4, strong):not(:where([class~="not-prose"] *)) {
-            color: inherit !important;
-        }
-        .dark .prose :where(h2, h3, h4, strong):not(:where([class~="not-prose"] *)) {
-            color: #e5e7eb !important;
-        }
-    </style>
+    :root {
+        --primary:#10b981;
+        --text:#374151;
+        --bg:#ffffff;
+        --card:#ffffff;
+        --border:#e5e7eb;
+        --input-bg:#ffffff;
+        --input-text:#1f2937;
+        --menu-text:#4b5563;
+        --title-text:#374151;
+    }
+    .dark {
+        --primary:#34d399;
+        --text:#f3f4f6;
+        --bg:#0f172a;
+        --card:#1e293b;
+        --border:#374151;
+        --input-bg:#1e293b;
+        --input-text:#f3f4f6;
+        --menu-text:#d1d5db;
+        --title-text:#f3f4f6;
+    }
+    body {font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:all 0.3s ease;}
+    .font-heading {font-family:'Playfair Display',serif;}
+    .glass {background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--border);}
+    .hover-lift {transition:all 0.3s ease;}
+    .hover-lift:hover {transform:translateY(-6px);box-shadow:0 20px 40px rgba(16,185,129,0.2);}
+    
+    /* Полная поддержка темной темы для Tailwind prose */
+    .dark .prose {
+        color: var(--text) !important;
+    }
+    .dark .prose :where(p, li, a, blockquote, code, pre, em, i, b, strong, h1, h2, h3, h4, h5, h6, table, thead, tbody, tr, th, td):not(:where([class~="not-prose"] *)) {
+        color: var(--text) !important;
+        border-color: var(--border) !important;
+    }
+    .dark .prose :where(a):not(:where([class~="not-prose"] *)) {
+        color: var(--primary) !important;
+    }
+    .dark .prose :where(a):not(:where([class~="not-prose"] *)):hover {
+        color: #10b981 !important;
+    }
+    .dark .prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+        border-color: var(--primary) !important;
+    }
+    .dark .prose :where(code):not(:where([class~="not-prose"] *)) {
+        background-color: rgba(56, 189, 148, 0.1) !important;
+        color: var(--primary) !important;
+    }
+    .dark .prose :where(pre):not(:where([class~="not-prose"] *)) {
+        background-color: var(--card) !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
+    }
+    .dark .prose :where(hr):not(:where([class~="not-prose"] *)) {
+        border-color: var(--border) !important;
+    }
+    
+    /* Специальные стили для изображений в темной теме */
+    .dark img {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.5) !important;
+    }
+    .dark .shadow-xl {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.5) !important;
+    }
+    .dark .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75) !important;
+    }
+    
+    /* Дополнительные стили для контента статьи */
+    .article-content {
+        position: relative;
+    }
+    .dark .article-content {
+        color-scheme: dark;
+    }
+    .dark .article-content :where(img, video, iframe) {
+        filter: brightness(0.9);
+    }
+</style>
 </head>
 <body class="min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 header-bg backdrop-blur-lg shadow-lg">
+    <header class="fixed top-0 left-0 right-0 z-50 header-bg bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-lg">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center h-16">
                 <a href="/" class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 font-heading">HealthHub</a>
@@ -120,7 +182,7 @@
             <div class="menu-bg backdrop-blur-lg shadow-lg px-6 py-5 flex justify-center space-x-1 border-t">
                 <a href="/" class="menu-link hover:text-emerald-600 dark:hover:text-emerald-400 px-5 py-3 rounded-full text-sm font-medium transition">Home</a>
                 {% for cat in categories %}
-                    <a href="/category/{{ cat.slug }}/" class="menu-link hover:text-emerald-600 dark:hover:text-emerald-400 px-5 py-3 rounded-full text-sm font-medium transition">{{ cat.name }}</a>
+                    <a href="{% url 'category' slug=cat.slug %}" class="menu-link hover:text-emerald-600 dark:hover:text-emerald-400 px-5 py-3 rounded-full text-sm font-medium transition">{{ cat.name }}</a>
                 {% endfor %}
             </div>
         </div>
@@ -141,7 +203,7 @@
                 <div class="space-y-2">
                     <a href="/" class="block py-5 px-6 text-2xl font-medium text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-2xl transition">Home</a>
                     {% for cat in categories %}
-                        <a href="/category/{{ cat.slug }}/" class="block py-5 px-6 text-2xl font-medium text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-2xl transition">
+                        <a href="{% url 'category' slug=cat.slug %}" class="block py-5 px-6 text-2xl font-medium text-gray-800 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-2xl transition">
                             {{ cat.name }}
                         </a>
                     {% endfor %}
@@ -197,7 +259,7 @@
                 <h3 class="text-xl font-bold mb-6 text-emerald-400">Categories</h3>
                 <ul class="space-y-3 text-gray-300">
                     {% for cat in categories|slice:":6" %}
-                    <li><a href="/category/{{ cat.slug }}/" class="hover:text-emerald-400 transition">{{ cat.name }}</a></li>
+                    <li><a href="{% url 'category' slug=cat.slug %}" class="hover:text-emerald-400 transition">{{ cat.name }}</a></li>
                     {% endfor %}
                     <li><a href="/search/" class="hover:text-emerald-400 transition">View All →</a></li>
                 </ul>
@@ -261,6 +323,34 @@
 
         mobileClose?.addEventListener('click', () => mobileMenu.classList.add('hidden'));
         mobileMenu?.addEventListener('click', e => e.target === mobileMenu && mobileMenu.classList.add('hidden'));
+    </script>
+    <script>
+    // Применение темной темы к динамически сгенерированному контенту
+    document.addEventListener('DOMContentLoaded', () => {
+        function applyDarkMode() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const articleContent = document.querySelector('.article-content');
+            
+            if (articleContent && isDark) {
+                // Удаление проблемных inline-стилей
+                articleContent.querySelectorAll('*').forEach(el => {
+                    if (el.style.color) {
+                        el.style.removeProperty('color');
+                    }
+                    if (el.style.backgroundColor) {
+                        el.style.removeProperty('background-color');
+                    }
+                });
+            }
+        }
+        
+        // Применить при загрузке
+        applyDarkMode();
+        
+        // Следить за изменениями в DOM (для динамически добавляемого контента)
+        const observer = new MutationObserver(applyDarkMode);
+        observer.observe(document.body, { childList: true, subtree: true });
+    });
     </script>
 </body>
 </html>

@@ -8,6 +8,8 @@ from django.views.generic import TemplateView
 from blog.views import home, category_view, article_detail, search, live_search
 from blog.admin import generate_articles_view
 from blog.sitemaps import ArticleSitemap
+from blog.api_views import ArticleCreateAPIView # Импортируем наш view
+from blog.feeds import LatestArticlesFeed # Импортируем
 
 sitemaps = {'articles': ArticleSitemap}
 
@@ -29,6 +31,8 @@ urlpatterns = [
     path('', home, name='home'),
     path('category/<slug:slug>/', category_view, name='category'),
     path('article/<slug:slug>/', article_detail, name='article_detail'),
+    path('api/articles/create/', ArticleCreateAPIView.as_view(), name='api-article-create'),
+    path('feed/', LatestArticlesFeed(), name='article_feed'),
 ]
 
 if settings.DEBUG:

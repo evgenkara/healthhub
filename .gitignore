@@ -22,3 +22,36 @@ venv/
 STOP_GENERATION
 GENERATION_PROGRESS
 generation.log
+# .gitignore
+
+# 1. Секреты и настройки
+.env
+.env.local
+config.py
+local_settings.py
+
+# 2. Виртуальное окружение
+venv/
+env/
+.venv/
+
+# 3. База данных и кэш
+db.sqlite3
+*.pyc
+__pycache__/
+*.log
+
+# 4. Медиа файлы (Картинки не храним в git, они тяжелые)
+media/
+# Но сохраняем структуру папок
+!media/.gitkeep
+
+# 5. Статика (собранная)
+static/
+# Но исходники статики (если есть свои CSS/JS) оставляем
+!healthsite/static/
+
+# 6. Системные файлы
+.DS_Store
+.vscode/
+.idea/
