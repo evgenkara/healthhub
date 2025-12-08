@@ -1,9 +1,85 @@
 {% extends "base.html" %}
-{% block title %}Medical Disclaimer — HealthHub{% endblock %}
+{% load static %}
+
+{% block title %}Medical Disclaimer — CureCurious{% endblock %}
+
 {% block content %}
-<div class="max-w-4xl mx-auto px-6 py-20 prose prose-lg dark:prose-invert mx-auto">
-    <h1>Medical Disclaimer</h1>
-    <p>The information on HealthHub is for educational purposes only and is not a substitute for professional medical advice.</p>
-    <p>Always consult with a qualified healthcare provider before making health decisions.</p>
+<div class="relative overflow-hidden min-h-screen">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-30 dark:opacity-10 pointer-events-none">
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-red-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+        <div class="absolute bottom-0 right-0 w-80 h-80 bg-blue-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 py-16">
+        
+        <div class="text-center mb-16 border-b border-gray-200 dark:border-gray-700 pb-12">
+            <div class="inline-block p-3 mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+                <img src="{% static 'images/logo.jpeg' %}" alt="CureCurious Logo" class="h-16 w-auto mx-auto object-contain">
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold font-heading text-gray-900 dark:text-white mb-4">
+                Medical Disclaimer
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400">
+                Please read this disclaimer carefully before using CureCurious.
+            </p>
+        </div>
+
+        <div class="prose prose-lg prose-emerald md:prose-xl dark:prose-invert max-w-none mx-auto bg-white/50 dark:bg-gray-800/50 p-8 md:p-12 rounded-3xl backdrop-blur-sm shadow-sm">
+            
+            <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-6 mb-8 rounded-r-lg not-prose">
+                <h3 class="text-xl font-bold text-red-700 dark:text-red-400 mb-2">
+                    <i class="fas fa-exclamation-triangle mr-2"></i> Medical Emergency
+                </h3>
+                <p class="text-red-800 dark:text-red-300">
+                    If you think you may have a medical emergency, call your doctor, go to the nearest hospital emergency department, or call emergency services immediately. Do not rely on information found on this website for immediate medical needs.
+                </p>
+            </div>
+
+            <h2>1. No Medical Advice</h2>
+            <p>
+                The content provided on <strong>CureCurious.com</strong>, including text, graphics, images, and other material, is for <strong>informational and educational purposes only</strong>. 
+            </p>
+            <p>
+                This content is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this website.
+            </p>
+
+            <h2>2. No Doctor-Patient Relationship</h2>
+            <p>
+                Accessing, reading, or interacting with content on CureCurious does not create a doctor-patient relationship between you and the website owners, authors, or contributors. We are researchers and enthusiasts, not your treating physicians.
+            </p>
+
+            <h2>3. Accuracy and AI Generation</h2>
+            <p>
+                CureCurious leverages Artificial Intelligence (AI) to synthesize scientific research and create content. While we strive for high accuracy and cite credible sources (PubMed, NIH, etc.), AI models can occasionally produce errors or hallucinations.
+            </p>
+            <ul>
+                <li>Medical knowledge evolves constantly. Information on this site may become outdated.</li>
+                <li>We do not guarantee the completeness, reliability, or accuracy of this information.</li>
+                <li>Any action you take upon the information you find on this website is strictly at your own risk.</li>
+            </ul>
+
+            <h2>4. Supplements and Treatments</h2>
+            <p>
+                Statements regarding dietary supplements or holistic treatments have not necessarily been evaluated by the FDA or other regulatory bodies. They are not intended to diagnose, treat, cure, or prevent any disease. Dosage and interactions vary by individual; consult a healthcare professional before starting any new regimen.
+            </p>
+
+            <h2>5. External Links</h2>
+            <p>
+                CureCurious may contain links to third-party websites or services that are not owned or controlled by us. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites.
+            </p>
+
+            <h2>6. Limitation of Liability</h2>
+            <p>
+                In no event shall CureCurious, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of health, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the website.
+            </p>
+
+            <hr class="my-12 border-gray-200 dark:border-gray-700">
+
+            <p class="text-sm text-gray-500 italic text-center">
+                Last Updated: {% now "F j, Y" %}
+            </p>
+
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -146,7 +146,7 @@
     <header class="fixed top-0 left-0 right-0 z-50 header-bg bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-lg">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center h-16">
-                <a href="/" class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 font-heading">HealthHub</a>
+                <a href="/" class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 font-heading">CureCurious</a>
 
                 <div class="flex-1 max-w-2xl mx-8">
                     <form action="{% url 'search' %}" method="get" class="relative">
@@ -248,11 +248,11 @@
     <footer class="bg-gray-900 text-white py-16 mt-20">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
             <div>
-                <h2 class="text-4xl font-bold font-heading mb-6 text-emerald-400">HealthHub</h2>
+                <h2 class="text-4xl font-bold font-heading mb-6 text-emerald-400">CureCurious</h2>
                 <p class="text-gray-400 leading-relaxed">
                     AI-Powered Wellness & Longevity<br>
                     15 000+ science-backed articles<br>
-                    Updated daily • 2025
+                    Updated daily • {% now "Y" %}
                 </p>
             </div>
             <div>
@@ -288,7 +288,7 @@
         </div>
         <div class="mt-16 pt-8 border-t border-gray-800 text-center text-gray-400">
             <p class="text-sm">
-                © 2025 HealthHub • AI-Generated Content • 
+                © {% now "Y" %} CureCurious • AI-Generated Content • 
                 <a href="/sitemap.xml" class="hover:text-emerald-400">Sitemap</a> • 
                 <a href="/robots.txt" class="hover:text-emerald-400">Robots.txt</a>
             </p>

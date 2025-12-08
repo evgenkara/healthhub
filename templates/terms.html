@@ -1,8 +1,87 @@
 {% extends "base.html" %}
-{% block title %}Terms of Service — HealthHub{% endblock %}
+{% load static %}
+
+{% block title %}Terms of Service — CureCurious{% endblock %}
+
 {% block content %}
-<div class="max-w-4xl mx-auto px-6 py-20 prose prose-lg dark:prose-invert mx-auto">
-    <h1>Terms of Service</h1>
-    <p>By using HealthHub, you agree to our terms. All content is for informational purposes only.</p>
+<div class="relative overflow-hidden min-h-screen">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-30 dark:opacity-10 pointer-events-none">
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+        <div class="absolute bottom-1/4 right-0 w-80 h-80 bg-blue-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 py-16">
+        
+        <div class="text-center mb-16 border-b border-gray-200 dark:border-gray-700 pb-12">
+            <div class="inline-block p-3 mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+                <img src="{% static 'images/logo.jpeg' %}" alt="CureCurious Logo" class="h-16 w-auto mx-auto object-contain">
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold font-heading text-gray-900 dark:text-white mb-4">
+                Terms of Service
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400">
+                Please read these terms carefully before using our website.
+            </p>
+        </div>
+
+        <div class="prose prose-lg prose-emerald md:prose-xl dark:prose-invert max-w-none mx-auto bg-white/50 dark:bg-gray-800/50 p-8 md:p-12 rounded-3xl backdrop-blur-sm shadow-sm">
+            
+            <h2>1. Acceptance of Terms</h2>
+            <p>
+                By accessing and using <strong>CureCurious.com</strong> ("Website"), you accept and agree to be bound by the terms and provision of this agreement. In addition, when using this Website's particular services, you shall be subject to any posted guidelines or rules applicable to such services.
+            </p>
+
+            <h2>2. Intellectual Property</h2>
+            <p>
+                The Site and its original content, features, and functionality are owned by CureCurious and are protected by international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
+            </p>
+            <p>
+                You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our Website, except as follows:
+            </p>
+            <ul>
+                <li>Your computer may temporarily store copies of such materials in RAM incidental to your accessing and viewing those materials.</li>
+                <li>You may store files that are automatically cached by your Web browser for display enhancement purposes.</li>
+                <li>You may print or download one copy of a reasonable number of pages of the Website for your own personal, non-commercial use and not for further reproduction, publication, or distribution.</li>
+            </ul>
+
+            <h2>3. User Contributions</h2>
+            <p>
+                The Website may contain message boards, chat rooms, personal web pages or profiles, forums, bulletin boards, and other interactive features that allow users to post, submit, publish, display, or transmit to other users or other persons content or materials on or through the Website.
+            </p>
+            <p>
+                Any contribution you post to the site will be considered non-confidential and non-proprietary.
+            </p>
+
+            <h2>4. Disclaimer of Warranties</h2>
+            <p>
+                You understand that we cannot and do not guarantee or warrant that files available for downloading from the internet or the Website will be free of viruses or other destructive code. You are responsible for implementing sufficient procedures and checkpoints to satisfy your particular requirements for anti-virus protection.
+            </p>
+            <p>
+                <strong>YOUR USE OF THE WEBSITE, ITS CONTENT, AND ANY SERVICES OR ITEMS OBTAINED THROUGH THE WEBSITE IS AT YOUR OWN RISK.</strong>
+            </p>
+
+            <h2>5. Limitation on Liability</h2>
+            <p>
+                In no event will CureCurious, its affiliates, or their licensors, service providers, employees, agents, officers, or directors be liable for damages of any kind, under any legal theory, arising out of or in connection with your use, or inability to use, the Website, any websites linked to it, any content on the Website.
+            </p>
+
+            <h2>6. Changes to Terms</h2>
+            <p>
+                We may revise and update these Terms of Service from time to time in our sole discretion. All changes are effective immediately when we post them. Your continued use of the Website following the posting of revised Terms of Service means that you accept and agree to the changes.
+            </p>
+
+            <h2>7. Contact Information</h2>
+            <p>
+                To ask questions or comment about these Terms of Service, contact us at: <a href="mailto:hello@curecurious.com">hello@curecurious.com</a>
+            </p>
+
+            <hr class="my-12 border-gray-200 dark:border-gray-700">
+
+            <p class="text-sm text-gray-500 italic text-center">
+                Last Updated: {% now "F j, Y" %}
+            </p>
+
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -210,3 +210,49 @@ class PinterestPoster:
         except Exception as e:
             print(f"❌ Pinterest Request Error: {e}")
             return False
+        
+class FacebookPoster:
+    @staticmethod
+    def send(message, image_path=None, link=None):
+        page_id = os.getenv('FACEBOOK_PAGE_ID')
+        token = os.getenv('FACEBOOK_PAGE_TOKEN')
+        
+        if not page_id or not token:
+            print("❌ Facebook credentials missing")
+            return False
+
+        # Формируем текст поста
+        full_message = f"{message}\n\n👉 Read more: {link}" if link else message
+
+        try:
+            if image_path and os.path.exists(image_path):
+                # 1. Постим КАРТИНКУ + Текст
+                url = f"https://graph.facebook.com/v19.0/{page_id}/photos"
+                payload = {
+                    'message': full_message,
+                    'access_token': token
+                }
+                # Отправляем файл бинарно
+                with open(image_path, 'rb') as img:
+                    files = {'source': img}
+                    resp = requests.post(url, data=payload, files=files)
+            else:
+                # 2. Постим только ТЕКСТ + Ссылку (Feed)
+                url = f"https://graph.facebook.com/v19.0/{page_id}/feed"
+                payload = {
+                    'message': full_message,
+                    'link': link,
+                    'access_token': token
+                }
+                resp = requests.post(url, data=payload)
+
+            if resp.status_code == 200:
+                print(f"📘 FB Posted: ID {resp.json().get('id')}")
+                return True
+            else:
+                print(f"❌ FB Error: {resp.text}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ FB Connection Error: {e}")
+            return False

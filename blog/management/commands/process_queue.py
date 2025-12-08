@@ -88,9 +88,17 @@ class Command(BaseCommand):
 
                 # === 6. FACEBOOK ===
                 elif task.platform == 'FB':
-                    # Место для кода Facebook API
-                    self.stdout.write("Facebook API not implemented yet.")
-                    success = True 
+                    from blog.socials import FacebookPoster # Убедись в импорте
+                    
+                    # Подготовка данных
+                    caption = f"{article.title}\n\n{article.meta_description[:200]}..."
+                    img_path = article.featured_image.path if article.featured_image else None
+                    
+                    success = FacebookPoster.send(
+                        message=caption,
+                        image_path=img_path,
+                        link=url
+                    )
 
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f"Critical Error: {e}"))

@@ -1,16 +1,101 @@
 {% extends "base.html" %}
-{% block title %}About Us — HealthHub{% endblock %}
+{% load static %}
+
+{% block title %}About CureCurious — The Science of Longevity{% endblock %}
+
 {% block content %}
-<div class="max-w-4xl mx-auto px-6 py-20">
-    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-12 text-center">
-        <h1 class="text-5xl font-bold font-heading mb-8 text-gray-900 dark:text-white">About HealthHub</h1>
-        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
-            HealthHub is your trusted source for science-backed wellness and longevity content.<br>
-            Launched in 2025, we deliver 15,000+ in-depth articles on nutrition, fitness, mental health, and healthy aging.
-        </p>
-        <p class="text-lg text-gray-600 dark:text-gray-400">
-            Updated daily • Reviewed by experts • Designed for real results
-        </p>
+<div class="relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-30 dark:opacity-10 pointer-events-none">
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+        <div class="absolute top-32 right-10 w-96 h-96 bg-emerald-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6 py-16">
+        
+        <div class="text-center mb-20">
+            <div class="inline-block p-4 mb-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl hover-lift">
+                <img src="{% static 'images/logo.jpeg' %}" alt="CureCurious Logo" class="h-24 w-auto mx-auto object-contain">
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold font-heading mb-6 text-gray-900 dark:text-white leading-tight">
+                Curiosity is the first step<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">to a Cure.</span>
+            </h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                Bridging the gap between cutting-edge medical science, holistic wellness, and your daily life.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center mb-24">
+            <div class="prose dark:prose-invert">
+                <h2 class="text-3xl font-bold font-heading text-gray-900 dark:text-white mb-6">Our Philosophy</h2>
+                <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">
+                    Welcome to <strong>CureCurious</strong>. Launched in 2025, we are a next-generation health platform designed for the modern seeker of longevity.
+                </p>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                    We believe that health information shouldn't be dry, confusing, or hidden behind paywalls. Our name reflects our ethos: staying curious about the mechanisms of our bodies is the best way to find the "cure" for a stagnant lifestyle.
+                </p>
+                <p class="text-gray-600 dark:text-gray-400">
+                    By combining the processing power of Artificial Intelligence with rigorous scientific standards, we analyze thousands of studies to bring you actionable insights on nutrition, biohacking, and mental resilience.
+                </p>
+            </div>
+            <div class="bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700 p-8 rounded-3xl shadow-inner">
+                <h3 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">What We Cover</h3>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full mr-4 mt-1">
+                            <i class="fas fa-dna"></i>
+                        </span>
+                        <div>
+                            <strong class="block text-gray-900 dark:text-white">Longevity Science</strong>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">Understanding aging at a cellular level.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-emerald-100 text-emerald-600 rounded-full mr-4 mt-1">
+                            <i class="fas fa-leaf"></i>
+                        </span>
+                        <div>
+                            <strong class="block text-gray-900 dark:text-white">Natural Wellness</strong>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">Nutrition, supplements, and holistic habits.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-purple-100 text-purple-600 rounded-full mr-4 mt-1">
+                            <i class="fas fa-brain"></i>
+                        </span>
+                        <div>
+                            <strong class="block text-gray-900 dark:text-white">Mental Resilience</strong>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">Meditation, sleep hygiene, and cognitive health.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-12 text-center border border-gray-100 dark:border-gray-700">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="text-4xl font-bold text-emerald-500 mb-2">15,000+</div>
+                    <div class="text-gray-600 dark:text-gray-400 font-medium">Articles Published</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-blue-500 mb-2">Daily</div>
+                    <div class="text-gray-600 dark:text-gray-400 font-medium">Fresh Updates</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-purple-500 mb-2">2025</div>
+                    <div class="text-gray-600 dark:text-gray-400 font-medium">Established</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-20 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Ready to upgrade your health?</h2>
+            <a href="/" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-10 rounded-full shadow-lg hover-lift transition duration-300 transform hover:-translate-y-1">
+                Start Exploring
+            </a>
+        </div>
+
     </div>
 </div>
 {% endblock %}

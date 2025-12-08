@@ -1,9 +1,86 @@
 {% extends "base.html" %}
-{% block title %}Privacy Policy — HealthHub{% endblock %}
+{% load static %}
+
+{% block title %}Privacy Policy — CureCurious{% endblock %}
+
 {% block content %}
-<div class="max-w-4xl mx-auto px-6 py-20 prose prose-lg dark:prose-invert mx-auto">
-    <h1>Privacy Policy</h1>
-    <p><strong>Last updated:</strong> November 2025</p>
-    <p>We respect your privacy. HealthHub does not use tracking cookies or collect personal data. Your visits are anonymous.</p>
+<div class="relative overflow-hidden min-h-screen">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-30 dark:opacity-10 pointer-events-none">
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+        <div class="absolute top-1/4 right-0 w-80 h-80 bg-emerald-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 py-16">
+        
+        <div class="text-center mb-16 border-b border-gray-200 dark:border-gray-700 pb-12">
+            <div class="inline-block p-3 mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+                <img src="{% static 'images/logo.jpeg' %}" alt="CureCurious Logo" class="h-16 w-auto mx-auto object-contain">
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold font-heading text-gray-900 dark:text-white mb-4">
+                Privacy Policy
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400">
+                Effective Date: December 8, 2025 • Last Updated: {% now "F j, Y" %}
+            </p>
+        </div>
+
+        <div class="prose prose-lg prose-emerald md:prose-xl dark:prose-invert max-w-none mx-auto bg-white/50 dark:bg-gray-800/50 p-8 md:p-12 rounded-3xl backdrop-blur-sm shadow-sm">
+            
+            <p class="lead">
+                At <strong>CureCurious</strong>, accessible from <a href="https://curecurious.com">curecurious.com</a>, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by CureCurious and how we use it.
+            </p>
+
+            <h2>1. Consent</h2>
+            <p>
+                By using our website, you hereby consent to our Privacy Policy and agree to its terms.
+            </p>
+
+            <h2>2. Information We Collect</h2>
+            <p>
+                CureCurious is committed to the principle of data minimization. We do not require you to create an account to read our articles. However, we may collect:
+            </p>
+            <ul>
+                <li><strong>Log Files:</strong> Like many other websites, CureCurious uses log files. These files merely log visitors to the site – usually a standard procedure for hosting companies and a part of hosting services' analytics. The information collected includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date/time stamp, referring/exit pages, and possibly the number of clicks.</li>
+                <li><strong>Cookies:</strong> We use "cookies" to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.</li>
+            </ul>
+
+            <h2>3. How We Use Your Information</h2>
+            <p>We use the information we collect in various ways, including to:</p>
+            <ul>
+                <li>Provide, operate, and maintain our website;</li>
+                <li>Improve, personalize, and expand our website;</li>
+                <li>Understand and analyze how you use our website;</li>
+                <li>Develop new products, services, features, and functionality;</li>
+                <li>Prevent fraud.</li>
+            </ul>
+
+            <h2>4. Third-Party Privacy Policies</h2>
+            <p>
+                CureCurious's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options.
+            </p>
+            <p>
+                You can choose to disable cookies through your individual browser options.
+            </p>
+
+            <h2>5. AI Disclaimer</h2>
+            <p>
+                Content on CureCurious is generated with the assistance of Artificial Intelligence and reviewed for quality. While we strive for accuracy, we do not store personal data to train our public models based on individual visitor behavior.
+            </p>
+
+            <h2>6. GDPR & CCPA Data Protection Rights</h2>
+            <p>
+                We would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the right to access, rectify, erase, restrict processing, object to processing, and data portability. If you make a request, we have one month to respond to you.
+            </p>
+
+            <h2>7. Contact Us</h2>
+            <p>
+                If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
+            </p>
+            <p>
+                <strong>Email:</strong> <a href="mailto:hello@curecurious.com">hello@curecurious.com</a>
+            </p>
+
+        </div>
+    </div>
 </div>
 {% endblock %}

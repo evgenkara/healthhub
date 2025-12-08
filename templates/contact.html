@@ -1,16 +1,57 @@
 {% extends "base.html" %}
-{% block title %}Contact — HealthHub{% endblock %}
+{% load static %}
+
+{% block title %}Contact — CureCurious{% endblock %}
+
 {% block content %}
-<div class="max-w-4xl mx-auto px-6 py-20">
-    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-12 text-center">
-        <h1 class="text-5xl font-bold font-heading mb-8 text-gray-900 dark:text-white">Contact Us</h1>
-        <p class="text-xl text-gray-700 dark:text-gray-300 mb-8">
-            Have questions, feedback, or partnership inquiries?<br>
-            We're here to help — response within 24 hours.
-        </p>
-        <a href="mailto:hello@healthhub.example" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-2xl py-5 px-12 rounded-full shadow-xl transition transform hover:scale-105">
-            hello@healthhub.example
-        </a>
+<div class="relative overflow-hidden min-h-[80vh] flex items-center justify-center">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-30 dark:opacity-10 pointer-events-none">
+        <div class="absolute top-10 left-10 w-96 h-96 bg-blue-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-emerald-100 rounded-full blur-3xl mix-blend-multiply filter"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 w-full py-12">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-16 text-center border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+            
+            <div class="inline-block p-4 mb-8 bg-white dark:bg-gray-700 rounded-2xl shadow-lg hover-lift transition-transform duration-300">
+                <img src="{% static 'images/logo.jpeg' %}" alt="CureCurious Logo" class="h-20 w-auto mx-auto object-contain">
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-bold font-heading mb-6 text-gray-900 dark:text-white leading-tight">
+                Stay <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Curious.</span><br>
+                Get in Touch.
+            </h1>
+
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto">
+                Have a question about a recent study? Feedback on our AI analysis? Or interested in a partnership?
+                <br class="hidden md:block">
+                We respond to every inquiry within 24 hours.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-12">
+                <a href="mailto:hello@curecurious.com" class="group block p-6 bg-gray-50 dark:bg-gray-700/50 rounded-2xl transition hover:bg-blue-50 dark:hover:bg-gray-700 border border-transparent hover:border-blue-200 dark:hover:border-blue-500 hover:-translate-y-1 duration-300">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">General Inquiries</h3>
+                    <p class="text-blue-600 dark:text-blue-400 font-medium break-all">hello@curecurious.com</p>
+                </a>
+
+                <a href="mailto:partners@curecurious.com" class="group block p-6 bg-gray-50 dark:bg-gray-700/50 rounded-2xl transition hover:bg-emerald-50 dark:hover:bg-gray-700 border border-transparent hover:border-emerald-200 dark:hover:border-emerald-500 hover:-translate-y-1 duration-300">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                        <i class="fas fa-handshake text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Partnerships</h3>
+                    <p class="text-emerald-600 dark:text-emerald-400 font-medium break-all">partners@curecurious.com</p>
+                </a>
+            </div>
+
+            <div class="flex justify-center space-x-6 text-gray-400">
+                <p class="text-sm">
+                    <i class="fas fa-map-marker-alt mr-2"></i> Digital HQ • Global Reach
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
