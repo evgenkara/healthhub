@@ -33,6 +33,8 @@ urlpatterns = [
     path('article/<slug:slug>/', article_detail, name='article_detail'),
     path('api/articles/create/', ArticleCreateAPIView.as_view(), name='api-article-create'),
     path('feed/', LatestArticlesFeed(), name='article_feed'),
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path('ads.txt', TemplateView.as_view(template_name="ads.txt", content_type="text/plain")),
 ]
 
 if settings.DEBUG:

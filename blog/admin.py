@@ -1,160 +1,164 @@
 from django.contrib import admin, messages
 from django.shortcuts import render, redirect
 from django import forms
-from .models import Article, Category, SocialQueue  # Убедись, что SocialQueue импортирована
-import requests
+from .models import Article, Category, SocialQueue
 import os
 import csv
-import json
-import random
-import uuid
-import time
 from django.conf import settings
 from threading import Thread
 from django.utils.text import slugify
-from io import BytesIO
-from PIL import Image
 
-# === НАСТРОЙКИ ЛОКАЛЬНОЙ НЕЙРОСЕТИ ===
-OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
-OLLAMA_MODEL = "llama3:8b" # Или qwen2.5:14b, что у тебя будет стоять
-COMFYUI_URL = "http://127.0.0.1:8188/prompt" # Адрес ComfyUI
-# ======================================
+# === ВАЖНО: ИМПОРТИРУЕМ ЛОГИКУ ИЗ ВАШЕГО МОДУЛЯ ===
+# Убедитесь, что файлы blog/ai/generators.py и blog/ai/prompts.py существуют
+from blog.ai.generators import ask_ollama, generate_image_comfy
+from blog.ai.prompts import get_article_system_prompt, get_image_prompt_generator_prompt, get_social_system_prompt
 
 STOP_FLAG = os.path.join(settings.BASE_DIR, 'STOP_GENERATION')
 PROGRESS_FILE = os.path.join(settings.BASE_DIR, 'GENERATION_PROGRESS')
 
 class GenerateForm(forms.Form):
-    articles_count = forms.IntegerField(initial=50, label="Сколько СТАТЕЙ генерировать")
-    posts_count = forms.IntegerField(initial=10, label="Сколько СОЦ-ПОСТОВ генерировать")
+    articles_count = forms.IntegerField(
+        min_value=0, max_value=100, initial=1, 
+        label="Статьи (из CSV)",
+        widget=forms.NumberInput(attrs={'class': 'w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-transparent'})
+    )
+    posts_count = forms.IntegerField(
+        min_value=0, max_value=20, initial=0, 
+        label="Соц-посты (случайные темы)",
+        widget=forms.NumberInput(attrs={'class': 'w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-transparent'})
+    )
 
-# --- 1. ФУНКЦИИ ГЕНЕРАЦИИ ТЕКСТА (OLLAMA) ---
-
-def ask_ollama(prompt, system_prompt="You are a helpful AI assistant."):
-    """Универсальная функция запроса к локальной LLM"""
-    data = {
-        "model": OLLAMA_MODEL,
-        "prompt": prompt,
-        "system": system_prompt,
-        "stream": False,
-        "options": {"temperature": 0.7}
-    }
-    try:
-        resp = requests.post(OLLAMA_URL, json=data, timeout=120)
-        if resp.status_code == 200:
-            return resp.json()['response']
-    except Exception as e:
-        print(f"❌ Ollama Error: {e}")
-    return None
-
-def generate_image_prompt(topic, style="cinematic"):
-    """Просит LLM придумать описание картинки для Stable Diffusion"""
-    system = "You are an expert prompt engineer for Stable Diffusion XL."
-    prompt = f"""
-    Ты — профессиональный фотограф и AI-художник. Твоя задача — превращать короткие темы в детальные промпты для Stable Diffusion.
-
-Всегда следуй структуре:
-[Subject], [Action/Context], [Art Style], [Lighting], [Color Palette], [Camera details].
-
-Пример:
-Input: "Morning coffee"
-Output: "Close-up shot of a steaming ceramic cup of coffee on a rustic wooden table, sunrise light streaming through a window, golden hour, cinematic lighting, shallow depth of field, bokeh, 8k resolution, hyperrealistic, cozy atmosphere."
-
-Никогда не пиши "Here is the prompt". Пиши только сам промпт.
-    """
-    return ask_ollama(prompt, system)
-
-def generate_social_content():
-    """Генерирует тему и текст для короткого поста"""
-    topics = [
-        "Morning motivation for healthy life",
-        "Quick tip for better sleep",
-        "Why water is important",
-        "Mental health minute",
-        "Stretching exercise of the day"
-    ]
-    topic = random.choice(topics)
-    
-    system = "You are a social media influencer in the health niche."
-    prompt = f"""Write a short, engaging social media post (max 280 chars) about: {topic}.
-    Include 2-3 emojis and hashtags. Do not use markdown."""
-    
-    text = ask_ollama(prompt, system)
-    return topic, text
-
-# --- 2. ФУНКЦИИ ГЕНЕРАЦИИ КАРТИНОК (COMFYUI) ---
-
-def generate_local_image(positive_prompt, filename):
-    """Отправляет запрос в локальный ComfyUI"""
-    # Это упрощенный JSON workflow для ComfyUI. 
-    # В реальности тебе нужно будет скопировать API Format из своего ComfyUI.
-    # Для примера я использую базовую структуру.
-    
-    # ВАЖНО: Это плейсхолдер! Тебе нужно будет вставить сюда свой Workflow JSON
-    # Я покажу как это сделать отдельно.
-    print(f"🎨 Генерирую картинку: {positive_prompt[:50]}...")
-    
-    # Эмуляция ожидания (пока нет реального ComfyUI)
-    time.sleep(2) 
-    
-    # ВМЕСТО ЭТОГО БЛОКА БУДЕТ ЗАПРОС К COMFYUI
-    # Пока используем заглушку или старый метод, если ComfyUI не настроен
-    return None 
-
-# --- 3. ГЛАВНАЯ ЛОГИКА ---
+# --- ГЛАВНАЯ ЛОГИКА ---
 
 def worker_generate_content(articles_count, posts_count):
     # 1. ГЕНЕРАЦИЯ СТАТЕЙ (Из CSV)
     csv_path = os.path.join(settings.BASE_DIR, 'keywords.csv')
+    
+    # Создаем папку для картинок
+    os.makedirs(os.path.join(settings.MEDIA_ROOT, 'articles'), exist_ok=True)
+
     if os.path.exists(csv_path) and articles_count > 0:
         with open(csv_path, encoding='utf-8') as f:
-            rows = list(csv.DictReader(f))[:articles_count]
-            for row in rows:
+            rows = list(csv.DictReader(f))
+            # Берем первые N записей
+            targets = rows[:articles_count] 
+            
+            for row in targets:
                 if os.path.exists(STOP_FLAG): break
                 
-                keyword = row['keyword']
+                keyword = row['keyword'].strip()
+                category_name = row['category'].strip()
                 
-                # A. Генерируем промпт для картинки
-                img_prompt = generate_image_prompt(keyword)
-                
-                # B. Генерируем Текст Статьи
-                html = ask_ollama(f"Write a detailed article about {keyword}...", system_prompt="Expert Writer")
-                
-                # C. Генерируем (или качаем) картинку
-                # generate_local_image(img_prompt, f"{slugify(keyword)}.jpg")
-                # Пока старая логика для теста:
-                # ... (код скачивания картинки) ...
+                print(f"⚙️ [Статья] Работаю над: {keyword}")
 
-                # D. Сохраняем и отправляем
-                cat, _ = Category.objects.get_or_create(name=row['category'])
-                
-                # Тут вызов твоей функции upload_article_to_remote...
-                print(f"✅ Статья '{keyword}' обработана.")
+                # A. Генерация промпта для картинки
+                try:
+                    img_prompt_text = ask_ollama(keyword, get_image_prompt_generator_prompt())
+                except:
+                    img_prompt_text = f"Professional photo of {keyword}, high quality, 4k"
 
-    # 2. ГЕНЕРАЦИЯ СОЦ-ПОСТОВ (Случайные)
+                # B. Генерация Текста Статьи
+                html = ask_ollama(f"Write a detailed article about {keyword}. Output HTML.", get_article_system_prompt())
+                
+                if not html:
+                    print(f"❌ Ошибка генерации текста для {keyword}")
+                    continue
+
+                # C. Генерация Картинки (ComfyUI)
+                # Вызываем ПРАВИЛЬНУЮ функцию из generators.py
+                img_filename = f"{slugify(keyword)}.png"
+                img_path_rel = generate_image_comfy(img_prompt_text, img_filename)
+
+                # D. Сохранение в БД
+                try:
+                    category, _ = Category.objects.get_or_create(name=category_name)
+                    
+                    article, created = Article.objects.update_or_create(
+                        title=keyword,
+                        defaults={
+                            'content': html,
+                            'category': category,
+                            'content_type': 'ARTICLE',
+                            'published': True,
+                            'featured_image': img_path_rel # Путь к картинке (или None)
+                        }
+                    )
+                    print(f"✅ Статья '{keyword}' успешно сохранена!")
+                except Exception as e:
+                    print(f"❌ Ошибка сохранения в БД: {e}")
+
+    # 2. ГЕНЕРАЦИЯ СОЦ-ПОСТОВ
+    import random
+    topics = ["Healthy Morning", "Better Sleep", "Hydration", "Mindfulness", "Walking Benefits"]
+    
     for i in range(posts_count):
         if os.path.exists(STOP_FLAG): break
         
-        topic, text = generate_social_content()
-        img_prompt = generate_image_prompt(f"{topic}, bright, happy, morning vibe")
+        topic = random.choice(topics)
+        print(f"📱 [Пост] Генерирую: {topic}")
         
-        print(f"📱 Пост {i+1}: {topic}")
-        
-        # Загружаем на сервер как Article, но с типом POST
-        # upload_article_to_remote(..., content=text, content_type='POST')
+        try:
+            # Текст поста
+            post_content = ask_ollama(f"Write a short post about {topic}", get_social_system_prompt('TG'))
+            
+            # Картинка поста
+            img_prompt = ask_ollama(f"{topic}, minimal vector art", get_image_prompt_generator_prompt())
+            img_filename = f"post_{slugify(topic)}_{random.randint(100,999)}.png"
+            img_path = generate_image_comfy(img_prompt, img_filename)
+            
+            # Сохраняем
+            Article.objects.create(
+                title=f"Post: {topic}",
+                content=post_content,
+                content_type='POST',
+                featured_image=img_path,
+                published=True,
+                promote_to_socials=True # Чтобы попало в расписание
+            )
+            print(f"✅ Пост '{topic}' сохранен.")
+        except Exception as e:
+            print(f"❌ Ошибка генерации поста: {e}")
 
 def generate_articles_view(request):
-    # ... (стандартный view код) ...
+    # Логика View
+    generating = os.path.exists(PROGRESS_FILE)
+    progress = "0/0"
+    
+    csv_path = os.path.join(settings.BASE_DIR, 'keywords.csv')
+    csv_exists = os.path.exists(csv_path)
+    csv_count = 0
+    if csv_exists:
+        with open(csv_path, encoding='utf-8') as f:
+            csv_count = sum(1 for line in f) - 1
+
     if request.method == 'POST':
+        if 'stop' in request.POST:
+            open(STOP_FLAG, 'w').close()
+            messages.success(request, "Остановка...")
+            return redirect('/generate/')
+
         form = GenerateForm(request.POST)
         if form.is_valid():
             a_count = form.cleaned_data['articles_count']
             p_count = form.cleaned_data['posts_count']
+            
+            # Запускаем в отдельном потоке
             Thread(target=worker_generate_content, args=(a_count, p_count)).start()
+            
+            messages.success(request, f"Запущено: {a_count} статей, {p_count} постов.")
             return redirect('/generate/')
-    # ...
-    return render(request, 'generate_form.html', {'form': form})
+    else:
+        form = GenerateForm()
 
+    return render(request, 'generate_form.html', {
+        'form': form,
+        'csv_exists': csv_exists,
+        'csv_count': csv_count,
+        'progress': progress,
+        'generating': generating
+    })
+
+# --- РЕГИСТРАЦИЯ В АДМИНКЕ ---
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -163,19 +167,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    # Добавили content_type и promote_to_socials в таблицу
     list_display = ('title', 'category', 'content_type', 'created_at', 'published', 'promote_to_socials')
-    
-    # Фильтры справа (очень удобно)
     list_filter = ('published', 'content_type', 'promote_to_socials', 'category', 'created_at')
-    
-    # Поиск по заголовку
     search_fields = ('title', 'content')
-    
-    # Автозаполнение слага
     prepopulated_fields = {"slug": ("title",)}
-    
-    # Поля, которые можно редактировать, не заходя внутрь статьи
     list_editable = ('published', 'promote_to_socials')
 
 @admin.register(SocialQueue)

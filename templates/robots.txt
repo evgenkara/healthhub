@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /api/
+Disallow: /generate/
+Allow: /
+
+Sitemap: https://curecurious.com/sitemap.xml

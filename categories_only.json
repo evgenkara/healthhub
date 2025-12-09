@@ -1,0 +1,110 @@
+[
+{
+  "model": "blog.category",
+  "pk": 1,
+  "fields": {
+    "name": "Nutrition & Diet",
+    "slug": "nutrition-diet",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Vitamins & Supplements",
+    "slug": "vitamins-supplements",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 3,
+  "fields": {
+    "name": "Weight Loss & Fat Burning",
+    "slug": "weight-loss-fat-burning",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 4,
+  "fields": {
+    "name": "Fitness & Exercise",
+    "slug": "fitness-exercise",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 5,
+  "fields": {
+    "name": "Mental Health & Stress",
+    "slug": "mental-health-stress",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 6,
+  "fields": {
+    "name": "Sleep & Recovery",
+    "slug": "sleep-recovery",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 7,
+  "fields": {
+    "name": "Women's Health",
+    "slug": "womens-health",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 8,
+  "fields": {
+    "name": "Men's Health",
+    "slug": "mens-health",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 9,
+  "fields": {
+    "name": "Anti-Aging & Longevity",
+    "slug": "anti-aging-longevity",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 10,
+  "fields": {
+    "name": "Immune System",
+    "slug": "immune-system",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 11,
+  "fields": {
+    "name": "Heart Health",
+    "slug": "heart-health",
+    "description": ""
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 12,
+  "fields": {
+    "name": "Brain Health",
+    "slug": "brain-health",
+    "description": ""
+  }
+}
+]
